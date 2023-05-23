@@ -49,7 +49,7 @@ jobs:
         shell: bash
         run: |
           echo "::set-output name=version::${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
-      - name: Build
+      - name: Build And Push
         run: |
           docker login --username ${{ secrets.DOCKER_HUB_USER }} --password ${{secrets.DOCKER_HUB_TOKEN}}
 
@@ -57,12 +57,5 @@ jobs:
           export PATH=.:$PATH:phantomjs/bin
 
           jcli cwp --install-artifacts --config-path formula.yaml --value-set output=push \
-            --value-set tag=kubespheredev/ks-jenkins:v${{ steps.build_env.outputs.version }} \
-            --value-set platform=linux/amd64,linux/arm64
-      - name: Push Image ghcr.io
-        run: |
-          export PATH=.:$PATH:phantomjs/bin
-          docker login ghcr.io --username ${{ secrets.GH_USER }} --password ${{secrets.GH_TOKEN}}
-          jcli cwp --install-artifacts --config-path formula.yaml --value-set output=push \
-            --value-set tag=ghcr.io/kubesphere/ks-jenkins:v${{ steps.build_env.outputs.version }} \
+            --value-set tag=registry.cn-huhehaote.aliyuncs.com/jackyu-testing/ks-jenkins:v${{ steps.build_env.outputs.version }} \
             --value-set platform=linux/amd64,linux/arm64
