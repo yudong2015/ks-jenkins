@@ -51,7 +51,7 @@ jobs:
           echo "::set-output name=version::${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}"
       - name: Build And Push
         run: |
-          docker login --username ${{ secrets.DOCKER_HUB_USER }} --password ${{secrets.DOCKER_HUB_TOKEN}}
+          docker login --username ${{ secrets.DOCKER_HUB_USER }} --password ${{secrets.DOCKER_HUB_TOKEN}} registry.cn-huhehaote.aliyuncs.com
 
           curl -L https://github.com/jenkins-zh/jenkins-cli/releases/latest/download/jcli-linux-amd64.tar.gz|tar xzv
           export PATH=.:$PATH:phantomjs/bin
